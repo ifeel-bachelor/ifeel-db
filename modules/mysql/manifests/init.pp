@@ -3,6 +3,9 @@ class mysql {
   # root mysql password
   $mysqlpw = "root"
 
+  # database name for backend
+  $backenddb = "ifeel_backend"
+
   # install mysql server
   package { "mysql-server":
     ensure => present,
@@ -35,5 +38,11 @@ class mysql {
     subscribe => Package["mysql-server"],
   }
 
+  # execute SQL for creating backend database
+  exec { "mysql-create-backend-database":
+    command => "mysql -uroot -e \"create database if not exists $backenddb default character set utf8 default collate utf8_general_ci;\"",
+    require => Service["mysql"],
+    subscribe => Package["mysql-server"],
+  }
   
 }
