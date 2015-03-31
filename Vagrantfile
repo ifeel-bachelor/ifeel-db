@@ -16,6 +16,9 @@ Vagrant.configure("2") do |config|
 
   config.vm.synced_folder "htdocs/", "/var/www/html/", :owner => "www-data"
 
+  # Set the Timezone to something useful
+    config.vm.provision :shell, :inline => "echo \"Europe/Oslo\" | sudo tee /etc/timezone && dpkg-reconfigure --frontend noninteractive tzdata"
+
   config.vm.provider :virtualbox do |vb|
     vb.name = "iFeel DB-server"
   end
